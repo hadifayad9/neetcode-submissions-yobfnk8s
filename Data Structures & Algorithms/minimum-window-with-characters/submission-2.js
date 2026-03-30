@@ -1,0 +1,40 @@
+class Solution {
+    /**
+     * @param {string} s
+     * @param {string} t
+     * @return {string}
+     */
+        minWindow(s, t) {
+        let tCount = {};
+        let sCount = {};
+        let formed = 0;
+        for (let i = 0; i < t.length; i++) {
+            tCount[t[i]] = (tCount[t[i]] || 0) + 1; 
+        }
+        let tCountLength = Object.keys(tCount).length;
+        let left = 0;
+        let bestLength = Infinity;
+        let bestStart = -1;
+        for (let i = 0; i < s.length; i++) {
+            sCount[s[i]] = (sCount[s[i]] || 0) + 1; 
+            if(tCount.hasOwnProperty(s[i]) && tCount[s[i]] === sCount[s[i]]){
+                formed++;
+            }
+            while(formed === tCountLength){
+                sCount[s[left]]--;
+                if(i - left + 1 < bestLength){
+                    bestStart = left;
+                }
+                bestLength = Math.min(bestLength, i - left + 1);
+                if(tCount.hasOwnProperty(s[left]) && sCount[s[left]] < tCount[s[left]]){
+                    formed--;
+                }
+                left++;
+            }
+        }
+        if(bestLength === Infinity && bestStart === -1){
+            return "";
+        }
+        return s.slice(bestStart, bestStart + bestLength);
+    }
+}
