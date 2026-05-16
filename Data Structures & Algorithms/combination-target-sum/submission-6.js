@@ -1,0 +1,27 @@
+class Solution {
+    /**
+     * @param {number[]} nums
+     * @param {number} target
+     * @returns {number[][]}
+     */
+  combinationSum(nums, target) {
+    let path = [];
+    let result = [];
+    function dfs(i, newTotal) {
+      if (newTotal === target) {
+        result.push([...path]);
+        return;
+      }
+      if (newTotal > target || i >= nums.length) {
+        return;
+      }
+      path.push(nums[i]);
+      dfs(i, newTotal + nums[i]);
+
+      path.pop();
+      dfs(i + 1, newTotal);
+    }
+    dfs(0, 0);
+    return result;
+  }
+}
