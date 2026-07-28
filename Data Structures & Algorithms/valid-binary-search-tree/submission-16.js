@@ -1,0 +1,34 @@
+/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *     constructor(val = 0, left = null, right = null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Solution {
+    /**
+     * @param {TreeNode} root
+     * @return {boolean}
+     */
+  isValidBST(root) {
+    let isValidTree = true;
+    let previousNode = null;
+    function dfs(root) {
+      if (!root) {
+        return null;
+      }
+      if (isValidTree) dfs(root.left);
+      if (previousNode && root.val <= previousNode.val) {
+        isValidTree = false;
+      }
+      previousNode = root;
+      if (isValidTree) dfs(root.right);
+    }
+    dfs(root, previousNode);
+    return isValidTree;
+  }
+}
